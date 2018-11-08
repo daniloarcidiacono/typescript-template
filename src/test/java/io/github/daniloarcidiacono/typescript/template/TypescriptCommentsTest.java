@@ -1,5 +1,6 @@
 package io.github.daniloarcidiacono.typescript.template;
 
+import io.github.daniloarcidiacono.commons.lang.FileCommons;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +20,7 @@ class TypescriptCommentsTest {
     void render() {
         assertEquals("", new TypescriptComments().render(), "Empty comments are not rendered");
         assertEquals("// comment\n", new TypescriptComments().comment("comment").render(), "One-liners use forward slash");
-        assertEquals(TestUtils.loadResource("comment_01.ts"), new TypescriptComments().comment("first line").comment("second line").render(),  "Multi-line comments use JavaDoc format");
+        assertEquals(FileCommons.loadResource("comment_01.ts"), new TypescriptComments().comment("first line").comment("second line").render(),  "Multi-line comments use JavaDoc format");
     }
 
     @Test
@@ -32,7 +33,7 @@ class TypescriptCommentsTest {
 
         sb.clear();
         new TypescriptComments().comment("first line").comment("second line").render(sb);
-        assertEquals(TestUtils.loadResource("comment_02.ts"), sb.toString(), "Indented multiliners work");
+        assertEquals(FileCommons.loadResource("comment_02.ts"), sb.toString(), "Indented multiliners work");
     }
 }
 

@@ -1,5 +1,8 @@
 package io.github.daniloarcidiacono.typescript.template;
 
+import io.github.daniloarcidiacono.typescript.template.statement.TypescriptStatement;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,7 +12,11 @@ import java.util.List;
  * Typescript comment block (single or multi-line).
  * @author Danilo Arcidiacono
  */
-public class TypescriptComments implements TypescriptRenderable {
+public class TypescriptComments implements TypescriptStatement {
+    // The source
+    private TypescriptSource source;
+
+    // Comment text
     private List<String> lines = new ArrayList<>();
 
     public TypescriptComments() {
@@ -49,6 +56,11 @@ public class TypescriptComments implements TypescriptRenderable {
     }
 
     @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
     public void render(final TypescriptStringBuilder sb) {
         if (sb == null) {
             throw new IllegalArgumentException(TypescriptExceptionMessages.ILLEGAL_TYPESCRIPT_BUILDER);
@@ -66,5 +78,16 @@ public class TypescriptComments implements TypescriptRenderable {
 
             sb.appendln(" */");
         }
+    }
+
+    @Override
+    public TypescriptSource getSource() {
+        return source;
+    }
+
+    @Override
+    public TypescriptComments setSource(final TypescriptSource source) {
+        this.source = source;
+        return this;
     }
 }

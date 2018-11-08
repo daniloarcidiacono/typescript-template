@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.type;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 /**
@@ -12,6 +13,11 @@ public class TypescriptBooleanType implements TypescriptType {
 
     // Don't instance, use the INSTANCE field instead
     private TypescriptBooleanType() {
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

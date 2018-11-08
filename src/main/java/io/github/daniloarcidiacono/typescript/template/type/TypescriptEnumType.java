@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.type;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 public class TypescriptEnumType implements TypescriptType {
@@ -8,6 +9,11 @@ public class TypescriptEnumType implements TypescriptType {
 
     public TypescriptEnumType(String identifier) {
         this.identifier = identifier;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

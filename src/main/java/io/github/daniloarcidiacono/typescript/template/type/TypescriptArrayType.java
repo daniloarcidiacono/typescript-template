@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.type;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 public class TypescriptArrayType implements TypescriptType {
@@ -8,6 +9,12 @@ public class TypescriptArrayType implements TypescriptType {
 
     public TypescriptArrayType(TypescriptType elementType) {
         this.elementType = elementType;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        elementType.accept(visitor);
     }
 
     @Override

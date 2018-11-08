@@ -1,6 +1,6 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
-import io.github.daniloarcidiacono.typescript.template.TestUtils;
+import io.github.daniloarcidiacono.commons.lang.FileCommons;
 import io.github.daniloarcidiacono.typescript.template.TypescriptComments;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 import io.github.daniloarcidiacono.typescript.template.type.*;
@@ -16,7 +16,7 @@ class TypescriptDeclarationTest {
     @Test
     void aliasesAndGenerics() {
         assertEquals(
-            TestUtils.loadResource("alias_01.ts"),
+            FileCommons.loadResource("alias_01.ts"),
             new TypescriptAlias()
                 .setIdentifier("MyAlias")
                 .parameter("A")
@@ -47,7 +47,7 @@ class TypescriptDeclarationTest {
     @Test
     void enumerations() {
         assertEquals(
-            TestUtils.loadResource("enum_01.ts"),
+            FileCommons.loadResource("enum_01.ts"),
             new TypescriptEnum("MyEnum")
                 .entry("key1", "value1", new TypescriptComments().comment("First key"))
                 .entry("key2", "value2")
@@ -67,7 +67,7 @@ class TypescriptDeclarationTest {
     @Test
     void emptyEnumeration() {
         assertEquals(
-            TestUtils.loadResource("enum_02.ts"),
+            FileCommons.loadResource("enum_02.ts"),
             new TypescriptEnum("EmptyEnum")
                 .renderWith(
                     new TypescriptStringBuilder()
@@ -79,7 +79,7 @@ class TypescriptDeclarationTest {
     @Test
     void interfaces() {
         assertEquals(
-            TestUtils.loadResource("interface_01.ts"),
+            FileCommons.loadResource("interface_01.ts"),
             new TypescriptInterface("EmptyInterface")
                 .renderWith(
                     new TypescriptStringBuilder()
@@ -89,12 +89,15 @@ class TypescriptDeclarationTest {
         );
 
         assertEquals(
-            TestUtils.loadResource("interface_02.ts"),
-            new TypescriptInterface("TestInterface", "SuperInterface")
+            FileCommons.loadResource("interface_02.ts"),
+            new TypescriptInterface("TestInterface")
+                .extend(new TypescriptInterfaceType("SuperInterface"))
+                .extend(new TypescriptInterfaceType("Animal").argument(TypescriptStringType.INSTANCE))
                 .setComments(
                     new TypescriptComments()
                         .comment("Well-behaved interface")
                 )
+                .setTypeParameters(new TypescriptTypeParameters().parameter("A"))
                 .fields(
                     new TypescriptField(
                         "name",

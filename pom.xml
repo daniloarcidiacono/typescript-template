@@ -47,6 +47,7 @@
         <!-- Dependencies -->
         <junit.bom.version>5.2.0</junit.bom.version>
         <junit.platform.version>1.2.0</junit.platform.version>
+        <commons-lang.version>0.0.1-SNAPSHOT</commons-lang.version>
 
         <!-- Plugins -->
         <maven-compiler.plugin.version>3.7.0</maven-compiler.plugin.version>
@@ -72,6 +73,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>io.github.daniloarcidiacono</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

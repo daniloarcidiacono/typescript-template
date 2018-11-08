@@ -1,8 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
-import io.github.daniloarcidiacono.typescript.template.TypescriptComments;
-import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
-import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
+import io.github.daniloarcidiacono.typescript.template.*;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +48,9 @@ public class TypescriptEnum implements TypescriptDeclaration {
         }
     }
 
+    // The source
+    private TypescriptSource source;
+
     // The comments that will be rendered before the enum declaration
     private TypescriptComments comments = new TypescriptComments();
 
@@ -87,6 +89,22 @@ public class TypescriptEnum implements TypescriptDeclaration {
     @Override
     public String getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return entries.isEmpty();
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        comments.accept(visitor);
+        for (EnumEntry entry : entries) {
+            if (entry.getComments() != null) {
+                entry.getComments().accept(visitor);
+            }
+        }
     }
 
     @Override
@@ -133,6 +151,17 @@ public class TypescriptEnum implements TypescriptDeclaration {
 
     public TypescriptEnum setComments(final TypescriptComments comments) {
         this.comments = comments;
+        return this;
+    }
+
+    @Override
+    public TypescriptSource getSource() {
+        return source;
+    }
+
+    @Override
+    public TypescriptEnum setSource(final TypescriptSource source) {
+        this.source = source;
         return this;
     }
 }

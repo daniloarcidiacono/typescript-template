@@ -1,5 +1,5 @@
 	// Well-behaved interface
-	export interface TestInterface extends SuperInterface {
+	export interface TestInterface<A> extends SuperInterface, Animal<string> {
 		/**
 		 * The
 		 * name

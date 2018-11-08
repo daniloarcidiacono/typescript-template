@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptRenderable;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
 
@@ -33,6 +34,14 @@ public class TypescriptTypeParameter implements TypescriptRenderable {
     public TypescriptTypeParameter setExtendedType(TypescriptType extendedType) {
         this.extendedType = extendedType;
         return this;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        if (extendedType != null) {
+            extendedType.accept(visitor);
+        }
     }
 
     @Override

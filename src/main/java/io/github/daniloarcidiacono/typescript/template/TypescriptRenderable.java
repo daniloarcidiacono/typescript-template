@@ -1,10 +1,18 @@
 package io.github.daniloarcidiacono.typescript.template;
 
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
+
 /**
  * Interface for an object that can be rendered to a {@link TypescriptStringBuilder}.
  * @author Danilo Arcidiacono
  */
 public interface TypescriptRenderable {
+    /**
+     * Visitor pattern
+     * @param visitor
+     */
+    void accept(final TypescriptRenderableVisitor visitor);
+
     /**
      * Appends the code to the builder.
      * @param sb the string builder

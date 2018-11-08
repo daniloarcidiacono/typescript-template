@@ -5,14 +5,14 @@ import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRendera
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 /**
- * The TypeScript null type.
+ * Represents type bound to a generic.
  * @author Danilo Arcidiacono
  */
-public class TypescriptNullType implements TypescriptType {
-    public static final TypescriptNullType INSTANCE = new TypescriptNullType();
+public class TypescriptGenericType implements TypescriptType {
+    private String typeName;
 
-    // Don't instance, use the INSTANCE field instead
-    private TypescriptNullType() {
+    public TypescriptGenericType(String typeName) {
+        this.typeName = typeName;
     }
 
     @Override
@@ -26,6 +26,6 @@ public class TypescriptNullType implements TypescriptType {
             throw new IllegalArgumentException(TypescriptExceptionMessages.ILLEGAL_TYPESCRIPT_BUILDER);
         }
 
-        sb.append("null");
+        sb.append(typeName);
     }
 }

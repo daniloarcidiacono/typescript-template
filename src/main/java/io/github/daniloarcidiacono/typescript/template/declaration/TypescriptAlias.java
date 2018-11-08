@@ -1,6 +1,8 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptComments;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
+import io.github.daniloarcidiacono.typescript.template.TypescriptSource;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
 
@@ -10,6 +12,9 @@ import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
  * @author Danilo Arcidiacono
  */
 public class TypescriptAlias implements TypescriptDeclaration {
+    // The source
+    private TypescriptSource source;
+
     // The comments that will be rendered before the enum declaration
     private TypescriptComments comments = new TypescriptComments();
 
@@ -23,6 +28,19 @@ public class TypescriptAlias implements TypescriptDeclaration {
     private TypescriptType alias;
 
     public TypescriptAlias() {
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        comments.accept(visitor);
+        typeParameters.accept(visitor);
+        alias.accept(visitor);
     }
 
     @Override
@@ -112,6 +130,17 @@ public class TypescriptAlias implements TypescriptDeclaration {
 
     public TypescriptAlias setAlias(TypescriptType alias) {
         this.alias = alias;
+        return this;
+    }
+
+    @Override
+    public TypescriptSource getSource() {
+        return source;
+    }
+
+    @Override
+    public TypescriptAlias setSource(final TypescriptSource source) {
+        this.source = source;
         return this;
     }
 }

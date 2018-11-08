@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.type;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 /**
@@ -27,6 +28,14 @@ public class TypescriptInterfaceType implements TypescriptType {
 
         genericsArguments.argument(argument);
         return this;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        if (genericsArguments != null) {
+            genericsArguments.accept(visitor);
+        }
     }
 
     @Override

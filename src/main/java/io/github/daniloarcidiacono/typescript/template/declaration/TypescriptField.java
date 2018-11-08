@@ -1,9 +1,8 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
-import io.github.daniloarcidiacono.typescript.template.TypescriptComments;
-import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
-import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
+import io.github.daniloarcidiacono.typescript.template.*;
 import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 
 /**
  * TypeScript interface field declaration.
@@ -12,6 +11,7 @@ import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
  */
 public class TypescriptField implements TypescriptDeclaration {
     public static final boolean OPTIONAL = false;
+    public static final boolean MANDATORY = true;
 
     // The comments that will be rendered before the enum declaration
     private TypescriptComments comments = new TypescriptComments();
@@ -40,6 +40,28 @@ public class TypescriptField implements TypescriptDeclaration {
     @Override
     public String getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public TypescriptSource getSource() {
+        return null;
+    }
+
+    @Override
+    public TypescriptField setSource(final TypescriptSource source) {
+        return this;
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        comments.accept(visitor);
+        type.accept(visitor);
     }
 
     @Override

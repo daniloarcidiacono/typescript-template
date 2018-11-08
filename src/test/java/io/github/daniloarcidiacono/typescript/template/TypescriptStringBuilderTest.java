@@ -1,5 +1,6 @@
 package io.github.daniloarcidiacono.typescript.template;
 
+import io.github.daniloarcidiacono.commons.lang.FileCommons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class TypescriptStringBuilderTest {
         assertEquals(TypescriptStringBuilder.Status.LINE_START, sb.getStatus());
 
         sb.clear();
-        assertEquals(TestUtils.loadResource("lines_04.txt"), sb.append("test\n\ntest").toString());
+        assertEquals(FileCommons.loadResource("lines_04.txt"), sb.append("test\n\ntest").toString());
     }
 
     @Test
@@ -65,7 +66,7 @@ class TypescriptStringBuilderTest {
 
         sb.appendln("line");
         sb.appendln("line2");
-        assertEquals(TestUtils.loadResource("lines_01.txt"), sb.toString());
+        assertEquals(FileCommons.loadResource("lines_01.txt"), sb.toString());
 
         sb.unindent();
         sb.unindent();
@@ -75,7 +76,7 @@ class TypescriptStringBuilderTest {
     @Test
     void smartBehaviour() {
         assertEquals(
-            TestUtils.loadResource("lines_02.txt"),
+            FileCommons.loadResource("lines_02.txt"),
             sb.indent(1).appendln("This\nis\nSparta\n").toString(),
             "Multilines are splitted and indented"
         );
@@ -83,7 +84,7 @@ class TypescriptStringBuilderTest {
         assertEquals(TypescriptStringBuilder.Status.LINE_START, sb.getStatus());
         sb.clear().setIndentLevel(1);
         assertEquals(
-            TestUtils.loadResource("lines_03.txt"),
+            FileCommons.loadResource("lines_03.txt"),
             sb.append("this ").append("is ").appendln("a chunk\nNew line").toString(),
             "Chunks can be joined"
         );

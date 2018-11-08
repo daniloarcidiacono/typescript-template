@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.type;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptRenderable;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 
 import java.util.ArrayList;
@@ -18,17 +19,18 @@ public class TypescriptGenericsArguments implements TypescriptRenderable {
     }
 
     @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+
+        for (TypescriptType argument : arguments) {
+            argument.accept(visitor);
+        }
+    }
+
+    @Override
     public void render(final TypescriptStringBuilder sb) {
         sb.append("<");
-        int index = 0;
-        for (TypescriptType generic : arguments) {
-            generic.render(sb);
-            if (index + 1 < arguments.size()) {
-                sb.append(", ");
-            }
-
-            index++;
-        }
+        TypescriptInheritanceArguments.renderList(arguments, sb);
         sb.append(">");
     }
 

@@ -1,6 +1,7 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
 import io.github.daniloarcidiacono.typescript.template.TypescriptRenderable;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
 import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
 
@@ -16,6 +17,19 @@ public class TypescriptTypeParameters implements TypescriptRenderable {
     private List<TypescriptTypeParameter> parameters = new ArrayList<>();
 
     public TypescriptTypeParameters() {
+    }
+
+    public boolean isEmpty() {
+        return parameters.isEmpty();
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+
+        for (TypescriptTypeParameter parameter : parameters) {
+            parameter.accept(visitor);
+        }
     }
 
     @Override

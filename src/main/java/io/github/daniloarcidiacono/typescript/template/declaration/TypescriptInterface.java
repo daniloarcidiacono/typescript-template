@@ -1,8 +1,10 @@
 package io.github.daniloarcidiacono.typescript.template.declaration;
 
-import io.github.daniloarcidiacono.typescript.template.TypescriptComments;
-import io.github.daniloarcidiacono.typescript.template.TypescriptExceptionMessages;
-import io.github.daniloarcidiacono.typescript.template.TypescriptStringBuilder;
+import io.github.daniloarcidiacono.typescript.template.*;
+import io.github.daniloarcidiacono.typescript.template.type.TypescriptInheritanceArguments;
+import io.github.daniloarcidiacono.typescript.template.type.TypescriptInterfaceType;
+import io.github.daniloarcidiacono.typescript.template.type.TypescriptType;
+import io.github.daniloarcidiacono.typescript.template.visitor.TypescriptRenderableVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +15,33 @@ import java.util.List;
  * @author Danilo Arcidiacono
  */
 public class TypescriptInterface implements TypescriptDeclaration {
+    // The source
+    private TypescriptSource source;
+
     // The comments that will be rendered before the enum declaration
     private TypescriptComments comments = new TypescriptComments();
 
     // The interface TypeScript identifier
     private String identifier;
 
-    // The optional TypeScript identifier of the superinterface
-    // Set to null if there is no super interface
-    private String superIdentifier;
+    // The inheritance data
+    private TypescriptInheritanceArguments inheritance = new TypescriptInheritanceArguments();
 
     // Type parameters
-    private TypescriptTypeParameters typeParameters;
+    private TypescriptTypeParameters typeParameters = new TypescriptTypeParameters();
 
     // Fields of the interface
     private List<TypescriptField> fields = new ArrayList<>();
 
+    // Creates an interface that does not extend another interface
     public TypescriptInterface(final String identifier) {
-        // Creates an interface that does not extend another interface
         this.identifier = identifier;
     }
 
-    public TypescriptInterface(final String identifier, final String superIdentifier) {
-        // Creates an interface that extends another one
-        this.identifier = identifier;
-        this.superIdentifier = superIdentifier;
+    // Creates an interface that extends another one
+    public TypescriptInterface(final String identifier, final TypescriptInterfaceType...extendedInterfaces) {
+        this(identifier);
+        this.inheritance.extend(extendedInterfaces);
     }
 
     public TypescriptInterface fields(final TypescriptField ...fields) {
@@ -53,9 +57,36 @@ public class TypescriptInterface implements TypescriptDeclaration {
         return this;
     }
 
+    public TypescriptInterface extend(final TypescriptType argument) {
+        inheritance.extend(argument);
+        return this;
+    }
+
+    public TypescriptInterface extend(final TypescriptType ...arguments) {
+        inheritance.extend(arguments);
+        return this;
+    }
+
     @Override
     public String getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return fields.isEmpty() && inheritance.isEmpty();
+    }
+
+    @Override
+    public void accept(final TypescriptRenderableVisitor visitor) {
+        visitor.visit(this);
+        comments.accept(visitor);
+        inheritance.accept(visitor);
+        typeParameters.accept(visitor);
+
+        for (TypescriptField field : fields) {
+            field.accept(visitor);
+        }
     }
 
     @Override
@@ -68,11 +99,17 @@ public class TypescriptInterface implements TypescriptDeclaration {
         comments.render(sb);
 
         // Render the interface
-        if (superIdentifier == null) {
-            sb.appendln("export interface " + identifier + " {");
-        } else {
-            sb.appendln("export interface " + identifier + " extends " + superIdentifier + " {");
+        sb.append("export interface ");
+        sb.append(identifier);
+        if (!typeParameters.isEmpty()) {
+            typeParameters.render(sb);
         }
+
+        if (!inheritance.isEmpty()) {
+            sb.append(" ");
+            inheritance.render(sb);
+        }
+        sb.appendln(" {");
 
         // Render each field
         int index = 0;
@@ -127,12 +164,22 @@ public class TypescriptInterface implements TypescriptDeclaration {
         return this;
     }
 
-    public String getSuperIdentifier() {
-        return superIdentifier;
+    public TypescriptInheritanceArguments getInheritance() {
+        return inheritance;
     }
 
-    public TypescriptInterface setSuperIdentifier(String superIdentifier) {
-        this.superIdentifier = superIdentifier;
+    public void setInheritance(TypescriptInheritanceArguments inheritance) {
+        this.inheritance = inheritance;
+    }
+
+    @Override
+    public TypescriptSource getSource() {
+        return source;
+    }
+
+    @Override
+    public TypescriptInterface setSource(final TypescriptSource source) {
+        this.source = source;
         return this;
     }
 }
