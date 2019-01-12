@@ -6,7 +6,7 @@
 
     <groupId>io.github.daniloarcidiacono</groupId>
     <artifactId>typescript-template</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
     <name>Template engine for TypeScript</name>
     <description>Template engine for TypeScript</description>
