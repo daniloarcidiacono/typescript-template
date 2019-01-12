@@ -1,3 +1,8 @@
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.daniloarcidiacono/typescript-template.svg?label=Maven%20Central)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.github.daniloarcidiacono%22%20a%3A%22typescript-template%22)
+[![codecov](https://codecov.io/gh/daniloarcidiacono/typescript-template/branch/master/graph/badge.svg)](https://codecov.io/gh/daniloarcidiacono/typescript-template)
+[![CircleCI](https://circleci.com/gh/daniloarcidiacono/typescript-template/tree/master.svg?style=svg)](https://circleci.com/gh/daniloarcidiacono/typescript-template/tree/master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 # Typescript Template
 This is a library to write formatted TypeScript code using a fluent API.
 
@@ -85,3 +90,5 @@ Dependencies:
 Object
 Address
 ```
+
+The latest version is available on [Maven Central](https://search.maven.org/artifact/io.github.daniloarcidiacono/typescript-template).
